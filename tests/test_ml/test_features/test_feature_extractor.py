@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from src.ml.features.extractors import (
+from src.harinero.ml.features.extractors import (
     BASIC_FEATURES,
     SPECTRAL_FEATURES,
     RHYTHM_FEATURES,

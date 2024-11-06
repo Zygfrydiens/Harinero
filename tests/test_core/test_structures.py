@@ -6,7 +6,7 @@ used for representing tango music organization.
 
 import pytest
 import dataclasses
-from src.core.models.structures import SongStruct, TandaStruct, MilongaStruct
+from src.harinero.core.models.structures import SongStruct, TandaStruct, MilongaStruct
 from pathlib import Path
 
 

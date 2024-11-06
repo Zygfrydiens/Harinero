@@ -21,7 +21,7 @@ TODO (MEDIUM PRIORITY):
    - Convert string paths to Path objects
 """
 
-from src.core.models.structures import SongStruct
+from ..models.structures import SongStruct
 from .loader import load_data_from_db
 import numpy as np
 from rapidfuzz import process, fuzz

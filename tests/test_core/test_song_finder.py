@@ -4,7 +4,7 @@ import os
 from typing import Dict, Any
 
 # Import the SongFinder class
-from src.core.database.finder import SongFinder
+from src.harinero.core.database.finder import SongFinder
 
 
 def create_empty_test_db(db_path):

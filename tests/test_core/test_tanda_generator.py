@@ -7,8 +7,8 @@ using fixtures for flexible test data generation.
 import pytest
 from typing import List, Callable, Dict, Any
 from pathlib import Path
-from src.core.models.structures import TandaStruct, SongStruct, MilongaStruct
-from src.core.tanda.tanda_generator import TandaGenerator
+from src.harinero.core.models.structures import TandaStruct, SongStruct, MilongaStruct
+from src.harinero.core.tanda.tanda_generator import TandaGenerator
 
 @pytest.fixture
 def test_data() -> Dict[str, Any]:

@@ -5,8 +5,8 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-from src.core.tanda.harinero_tanda_creator import HarineroTandaCreator
-from src.core.models.structures import SongStruct
+from src.harinero.core.tanda.harinero_tanda_creator import HarineroTandaCreator
+from src.harinero.core.models.structures import SongStruct
 
 
 class TestHarineroTandaCreator:
@@ -70,10 +70,10 @@ class TestHarineroTandaCreator:
         Returns:
             Dict containing mocked instances of all dependencies
         """
-        with patch('src.core.tanda.harinero_tanda_creator.SongFinder') as mock_finder, \
-                patch('src.core.tanda.harinero_tanda_creator.Preprocessor') as mock_preprocessor, \
-                patch('src.core.tanda.harinero_tanda_creator.KerasSongModel') as mock_model, \
-                patch('src.core.tanda.harinero_tanda_creator.TandaGenerator') as mock_generator:
+        with patch('src.harinero.core.tanda.harinero_tanda_creator.SongFinder') as mock_finder, \
+                patch('src.harinero.core.tanda.harinero_tanda_creator.Preprocessor') as mock_preprocessor, \
+                patch('src.harinero.core.tanda.harinero_tanda_creator.KerasSongModel') as mock_model, \
+                patch('src.harinero.core.tanda.harinero_tanda_creator.TandaGenerator') as mock_generator:
             # Configure mocks with return values
             mock_finder_instance = MagicMock()
             mock_preprocessor_instance = MagicMock()
