@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "harinero"
+version = "0.1.0"
+description = "A machine learning system for analyzing similarity between Argentine tango songs"
+authors = [{name = "Your Name"}]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "pandas",
+    "librosa",
+    "tensorflow",
+    "torch",
+    "scipy",
+    "matplotlib",
+    "rapidfuzz",
+    "scikit-learn",
+    "tqdm"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "flake8",
+    "mypy",
+    "jupyter"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["harinero"]
