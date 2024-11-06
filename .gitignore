@@ -1,0 +1,130 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.env
+.venv
+env.bak/
+venv.bak/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+*.nbconvert.ipynb
+
+# Data and Models (adjust these based on your needs)
+data/raw/*
+data/processed/*
+data/interim/*
+data/external/*
+data/db/*.db
+!data/db/.gitkeep
+models/*.h5
+models/*.pth
+models/*.pkl
+models/*.joblib
+
+# Logs and temporary files
+logs/
+*.log
+tmp/
+temp/
+.DS_Store
+
+# Audio files
+*.mp3
+*.wav
+*.m4a
+phrase_data/
+!phrase_data/.gitkeep
+
+# Database
+*.db
+*.sqlite3
+*.sqlite
+
+# Configuration (be careful with this)
+# config.json  # Uncomment if you want to ignore config files
+# *.ini
+
+# Testing and coverage
+.coverage
+coverage.xml
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Documentation
+docs/_build/
+docs/auto_examples/
+docs/generated/
+
+# Experiment outputs
+outputs/
+runs/
+wandb/
+lightning_logs/
+tensorboard_logs/
+
+# Cache directories
+.mypy_cache/
+.pyre/
+.pytype/
+__pypackages__/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST

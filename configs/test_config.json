@@ -1,0 +1,21 @@
+{
+  "model": {
+    "epochs": 1,
+    "patience": 1,
+    "baseline_accuracy": 0.9
+  },
+  "data": {
+    "sampling_rate": 4000,
+    "frame_time": 3,
+    "selected_hop_time": 1.5,
+    "dissimilar_hop_time": 3,
+    "dissimilar_sample_size": 2,
+    "dissimilar_year_range": 3,
+    "test_size": 0.3,
+    "random_state": 31
+  },
+  "paths": {
+    "media": "G:/tango",
+    "database": "tests/data/test.db"
+    }
+}
