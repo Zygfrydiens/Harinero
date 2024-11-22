@@ -5,17 +5,28 @@
     "baseline_accuracy": 0.9
   },
   "data": {
-    "sampling_rate": 4000,
+    "sampling_rate": 22050,
     "frame_time": 3,
     "selected_hop_time": 0.1,
     "dissimilar_hop_time": 3,
-    "dissimilar_sample_size": 50,
+    "dissimilar_sample_size": 25,
     "dissimilar_year_range": 10,
     "test_size": 0.3,
     "random_state": 31
   },
+  "features": {
+    "mfcc": {
+      "n_mfcc": 40,
+      "n_fft": 2048,
+      "hop_length": 512,
+      "n_mels": 128,
+      "fmin": 20,
+      "fmax": null,
+      "include_deltas": true
+    }
+  },
   "paths": {
-    "media": "/content",
+    "media": "/content/drive/MyDrive/",
     "database": "/content/drive/MyDrive/Harinero Tanda Creator/HarineroTandaDB.db"
   }
 }
