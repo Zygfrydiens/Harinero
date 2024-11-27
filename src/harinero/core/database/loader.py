@@ -34,7 +34,8 @@ def load_data_from_db(db_path: Path) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Dat
         albums_df = pd.read_sql_query("SELECT * FROM albums", conn)
         songs_df = pd.read_sql_query("SELECT * FROM songs", conn)
         songs_metadata_df = pd.read_sql_query("SELECT * FROM songs_metadata", conn)
+        songs_moods_df = pd.read_sql_query("SELECT * FROM song_moods", conn)
     finally:
         conn.close()
 
-    return authors_df, albums_df, songs_df, songs_metadata_df
+    return authors_df, albums_df, songs_df, songs_metadata_df, songs_moods_df

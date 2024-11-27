@@ -56,7 +56,7 @@ class SongFinder:
             ValueError: If database tables are empty
             FileNotFoundError: If database file doesn't exist
         """
-        self._authors_df, self._albums_df, self._songs_df, self._songs_metadata_df = load_data_from_db(
+        self._authors_df, self._albums_df, self._songs_df, self._songs_metadata_df, self._songs_moods_df = load_data_from_db(
             config['paths']['database'])
         self._media_path = config['paths']['media']
         self._validate_dataframes()
@@ -86,7 +86,7 @@ class SongFinder:
             SongStruct containing complete song information including:
                 - Basic song details (name, genre, year)
                 - Related entities (album, author)
-                - Audio features (tempo, pitch, etc.)
+                - Audio features (tempo, pitch, moods etc.)
                 - File location
         """
         song_row = self._songs_df[self._songs_df['song_id'] == song_id]
@@ -105,6 +105,8 @@ class SongFinder:
 
         author_row = author_row.iloc[0]
         metadata_row = self._songs_metadata_df[self._songs_metadata_df['song_id'] == song_id]
+        moods_row = self._songs_moods_df[self._songs_moods_df['song_id'] == song_id].iloc[
+            0] if not self._songs_moods_df.empty else None
 
         return SongStruct(
             song_id=song_id,
@@ -119,6 +121,12 @@ class SongFinder:
             beat_strength=round(metadata_row['beat_strength'].values[0], 2),
             pitch=round(metadata_row['pitch'].values[0], 2),
             brightness=round(metadata_row['spectral_centroid'].values[0], 2),
+            energy=round(metadata_row['energy'].values[0], 2),
+            popularity=song_row.get('popularity'),
+            happy=moods_row['happy'] if moods_row is not None else None,
+            sad=moods_row['sad'] if moods_row is not None else None,
+            romantic=moods_row['romantic'] if moods_row is not None else None,
+            dramatic=moods_row['dramatic'] if moods_row is not None else None,
             file_path=os.path.join(self._media_path,
                                    metadata_row['file_path'].values[0]) if not metadata_row.empty else None
         )
