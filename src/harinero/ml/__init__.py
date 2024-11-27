@@ -22,6 +22,10 @@ from .clustering import (
     evaluate_clustering_performance,
 )
 from .features import (
+    FeatureNormalizer,
+    TripletGenerator,
+    BaseFeatureExtractor,
+    MFCCExtractor,
     process_song_metadata,
     extract_and_add_features,
     initialize_feature_columns,
@@ -35,6 +39,7 @@ __all__ = [
 
     # Models
     'KerasSongModel',
+    'SiameseSongModel',
     'BaseModel',
 
     # Clustering
@@ -48,6 +53,10 @@ __all__ = [
     'extract_and_add_features',
     'initialize_feature_columns',
     'FEATURE_CONFIG',
+    'FeatureNormalizer',
+    'TripletGenerator',
+    'BaseFeatureExtractor',
+    'MFCCExtractor'
 ]
 
 # Type aliases that might be useful across the ML package

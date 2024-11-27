@@ -6,5 +6,6 @@ for song similarity learning.
 
 from .model_keras import KerasSongModel
 from .base import BaseModel
+from .model_siamese import SiameseSongModel
 
-__all__ = ['KerasSongModel', 'BaseModel']
+__all__ = ['KerasSongModel', 'BaseModel', 'SiameseSongModel']
