@@ -42,6 +42,12 @@ class SongStruct:
     beat_strength: float
     pitch: float
     brightness: float
+    energy: float
+    popularity: Optional[int] = None
+    happy: Optional[int] = None
+    sad: Optional[int] = None
+    romantic: Optional[int] = None
+    dramatic: Optional[int] = None
 
     def __str__(self) -> str:
         """Creates a formatted string representation of the song.
@@ -49,6 +55,10 @@ class SongStruct:
         Returns:
             Formatted string with song details
         """
+        moods = [f"{mood}: {getattr(self, mood)}"
+                 for mood in ['happy', 'sad', 'romantic', 'dramatic']
+                 if getattr(self, mood) is not None]
+
         return (f"Song: {self.name} (ID: {self.song_id})\n"
                 f"Artist: {self.singer}\n"
                 f"Genre: {self.genre}\n"
@@ -59,7 +69,10 @@ class SongStruct:
                 f"Tempo: {self.tempo}\n"
                 f"Beat Strength: {self.beat_strength}\n"
                 f"Pitch: {self.pitch}\n"
-                f"Brightness: {self.brightness}\n")
+                f"Brightness: {self.brightness}\n"
+                f"Energy: {self.energy}\n"
+                f"Popularity: {self.popularity if self.popularity else 'Not rated'}\n"
+                f"Moods: {', '.join(moods) if moods else 'No moods assigned'}\n")
 
     def extract(self, year_range: Optional[int] = None) -> Tuple[str, Union[int, Tuple[int, int]], str, str]:
         """Extracts key song metadata with optional year range calculation.
