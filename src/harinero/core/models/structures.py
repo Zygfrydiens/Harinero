@@ -4,6 +4,7 @@ import os
 import sys
 from IPython.display import Audio, display
 from typing import List, Tuple, Optional, Union
+import pandas as pd
 
 
 @dataclass(frozen=True)
@@ -55,24 +56,44 @@ class SongStruct:
         Returns:
             Formatted string with song details
         """
-        moods = [f"{mood}: {getattr(self, mood)}"
-                 for mood in ['happy', 'sad', 'romantic', 'dramatic']
-                 if getattr(self, mood) is not None]
 
-        return (f"Song: {self.name} (ID: {self.song_id})\n"
-                f"Artist: {self.singer}\n"
-                f"Genre: {self.genre}\n"
-                f"Track Number: {self.track_number}\n"
-                f"Year: {self.year}\n"
-                f"Album: {self.album_name}\n"
-                f"Author: {self.author_name}\n"
-                f"Tempo: {self.tempo}\n"
-                f"Beat Strength: {self.beat_strength}\n"
-                f"Pitch: {self.pitch}\n"
-                f"Brightness: {self.brightness}\n"
-                f"Energy: {self.energy}\n"
-                f"Popularity: {self.popularity if self.popularity else 'Not rated'}\n"
-                f"Moods: {', '.join(moods) if moods else 'No moods assigned'}\n")
+        def format_float(value: float) -> str:
+            return f"{value:.2f}" if value is not None else "Not available"
+
+        # Build main attributes string
+        main_info = (
+            f"Song: {self.name} (ID: {self.song_id})\n"
+            f"Artist: {self.singer}\n"
+            f"Genre: {self.genre}\n"
+            f"Track Number: {self.track_number}\n"
+            f"Year: {self.year}\n"
+            f"Album: {self.album_name}\n"
+            f"Author: {self.author_name}\n"
+            f"Tempo: {format_float(self.tempo)}\n"
+            f"Beat Strength: {format_float(self.beat_strength)}\n"
+            f"Pitch: {format_float(self.pitch)}\n"
+            f"Brightness: {format_float(self.brightness)}\n"
+            f"Energy: {format_float(self.energy)}\n"
+            f"Popularity: {self.popularity if self.popularity else 'Not rated'}"
+        )
+
+        # Handle moods - only include non-None values
+        mood_values = {
+            'Happy': self.happy,
+            'Sad': self.sad,
+            'Romantic': self.romantic,
+            'Dramatic': self.dramatic
+        }
+
+        # Filter out None values and format remaining moods
+        valid_moods = [f"{mood}: {value:.1f}"
+                       for mood, value in mood_values.items()
+                       if value is not None and not pd.isna(value)]
+
+        # Combine main info with moods
+        if valid_moods:
+            return main_info + "\n" + "\n".join(valid_moods)
+        return main_info
 
     def extract(self, year_range: Optional[int] = None) -> Tuple[str, Union[int, Tuple[int, int]], str, str]:
         """Extracts key song metadata with optional year range calculation.
