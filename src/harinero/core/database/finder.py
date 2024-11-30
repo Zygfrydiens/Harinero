@@ -27,6 +27,8 @@ import numpy as np
 from rapidfuzz import process, fuzz
 import unicodedata
 import os
+from typing import List, Optional, Union, Tuple, Dict, Any
+import pandas as pd
 
 
 class SongFinder:
@@ -131,7 +133,14 @@ class SongFinder:
                                    metadata_row['file_path'].values[0]) if not metadata_row.empty else None
         )
 
-    def get_songs_by_criteria(self, author_name=None, year=None, genre=None, singer=None):
+    def get_songs_by_criteria(
+            self,
+            author_name: Optional[str] = None,
+            year: Optional[Union[int, Tuple[int, int]]] = None,
+            genre: Optional[str] = None,
+            singer: Optional[str] = None,
+            popularity_threshold: Optional[float] = None
+    ) -> List[SongStruct]:
         """Find songs matching specified search criteria.
 
         Provides flexible song searching based on multiple criteria. All criteria are
@@ -142,6 +151,7 @@ class SongFinder:
             year: Either specific year (int) or (start_year, end_year) tuple
             genre: Tango genre to filter by (tango, vals, milonga, etc.)
             singer: Singer name to filter by
+            popularity_threshold: Minimum popularity score (0-100) for returned songs
 
         Raises:
             ValueError: If any specified criteria value is invalid or not found
@@ -183,6 +193,13 @@ class SongFinder:
             if not self._songs_df['singer'].str.lower().isin([singer]).any():
                 raise ValueError(f"Singer '{singer}' not found.")
             songs_filtered = songs_filtered[songs_filtered['singer'].str.lower() == singer]
+
+        if popularity_threshold is not None:
+            if not 0 <= popularity_threshold <= 100:
+                raise ValueError("Popularity threshold must be between 0 and 100")
+            songs_filtered = songs_filtered[songs_filtered['popularity'] >= popularity_threshold]
+            if songs_filtered.empty:
+                raise ValueError(f"No songs found with popularity >= {popularity_threshold}")
 
         return [self.get_song(row['song_id']) for _, row in songs_filtered.iterrows()]
 
@@ -247,11 +264,8 @@ class SongFinder:
         """
         return unicodedata.normalize('NFKD', text).encode('ASCII', 'ignore').decode('utf-8').lower()
 
-    def get_songs_by_name(self, song_name):
+    def get_songs_by_name(self, song_name: str) -> Tuple[List[SongStruct], pd.DataFrame]:
         """Find songs with similar names using fuzzy matching.
-
-        Uses fuzzy string matching to find songs with similar names, accounting for
-        minor spelling differences, accents, and word order variations.
 
         Args:
             song_name: Name of the song to search for
@@ -259,17 +273,19 @@ class SongFinder:
         Returns:
             Tuple containing:
                 - List of SongStruct objects for matching songs
-                - DataFrame with detailed match information
+                - DataFrame with detailed song information and match scores
 
         Raises:
             ValueError: If no songs match with sufficient similarity
         """
         song_name_normalized = self.normalize_text(song_name)
         self._songs_df['normalized_name'] = self._songs_df['name'].apply(self.normalize_text)
+
         matches = process.extract(song_name_normalized,
                                   self._songs_df['normalized_name'],
                                   scorer=fuzz.token_sort_ratio,
                                   limit=10)
+
         threshold = 80
         best_matches = [match for match, score, idx in matches if score >= threshold]
 
@@ -277,5 +293,26 @@ class SongFinder:
             raise ValueError(f"No songs found matching '{song_name}' with sufficient similarity.")
 
         matching_songs = self._songs_df[self._songs_df['normalized_name'].isin(best_matches)]
+        song_structs = [self.get_song(row['song_id']) for _, row in matching_songs.iterrows()]
 
-        return [self.get_song(row['song_id']) for _, row in matching_songs.iterrows()], matching_songs
+        song_details = []
+        for song in song_structs:
+            song_details.append({
+                'song_id': song.song_id,
+                'name': song.name,
+                'author': song.author_name,
+                'year': song.year,
+                'genre': song.genre,
+                'singer': song.singer,
+                'tempo': song.tempo,
+                'beat_strength': song.beat_strength,
+                'pitch': song.pitch,
+                'brightness': song.brightness,
+                'popularity': song.popularity,
+                'happy': song.happy,
+                'sad': song.sad,
+                'dramatic': song.dramatic,
+                'romantic': song.romantic
+            })
+
+        return song_structs, pd.DataFrame(song_details)
